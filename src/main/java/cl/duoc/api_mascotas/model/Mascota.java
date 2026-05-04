@@ -1,7 +1,5 @@
 package cl.duoc.api_mascotas.model;
-
 import java.time.LocalDate;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -37,7 +35,7 @@ public class Mascota {
     private Especie especie;
 
     @ManyToOne
-    @JoinColumn(nullable = false, name = "id_raza")
+    @JoinColumn(name = "id_raza")
     private Raza raza;
 
 }
