@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,29 +19,25 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Mascota {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    
     @Column(length = 50, nullable = false)
     private String nombreMascota;
 
-    
     @Column(nullable = false)
-    private Long idDueno;
+    private Long idCliente; // ANOTACION PERSONAL:MODIFICAR A CLIENTE CLIENTE
 
     @Column(name = "fecha_nacimiento", nullable = false)
     private LocalDate fechaNacimientoMascota;
 
-    @Column(length = 30)
-    private Especie espacie;
-    // * hacer clasep para tabla
+    @ManyToOne
+    @JoinColumn(nullable = false, name = "id_especie")
+    private Especie especie;
 
-    @Column(length = 30)
+    @ManyToOne
+    @JoinColumn(nullable = false, name = "id_raza")
     private Raza raza;
-   
-
 
 }

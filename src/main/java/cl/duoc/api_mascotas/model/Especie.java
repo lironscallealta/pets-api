@@ -18,7 +18,7 @@ public class Especie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long idEspecie;
+    Long id;
     String nombreEspecie;
     String DescripcionEspecie;
 

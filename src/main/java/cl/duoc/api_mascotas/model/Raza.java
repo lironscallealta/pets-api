@@ -17,7 +17,7 @@ public class Raza {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    Long idRaza;
+    Long id;
     String nombreRaza;
-
+    
 }
