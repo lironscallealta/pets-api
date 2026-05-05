@@ -18,11 +18,12 @@ public class Especie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @Column(length = 30)
-    String nombreEspecie;
+    private String nombreEspecie;
     
-    String DescripcionEspecie;
+    
+    private String DescripcionEspecie;
 
 }

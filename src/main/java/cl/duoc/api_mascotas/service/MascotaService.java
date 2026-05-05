@@ -5,8 +5,9 @@ import org.springframework.stereotype.Service;
 import cl.duoc.api_mascotas.client.UsuarioClient;
 import cl.duoc.api_mascotas.dto.request.MascotaRequestDTO;
 import cl.duoc.api_mascotas.dto.response.MascotaResponseDTO;
-
+import cl.duoc.api_mascotas.model.Especie;
 import cl.duoc.api_mascotas.model.Mascota;
+import cl.duoc.api_mascotas.model.Raza;
 import cl.duoc.api_mascotas.repository.MascotaRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -16,15 +17,17 @@ public class MascotaService {
 
     private final MascotaRepository mascotaRepository;
     private final UsuarioClient mascotaClient;
+    //private final Raza raza;
 
-    public MascotaResponseDTO mapToDtoMascotaResponse(Mascota mascotaModel) {
+
+    public MascotaResponseDTO mapToDtoMascotaResponse(Mascota mascotaModel, Raza raza, Especie especie) {
         MascotaResponseDTO mascotaResponse = new MascotaResponseDTO();
-       // Especie
+     
         mascotaResponse.setId(mascotaModel.getId());
         mascotaResponse.setNombreMascota(mascotaModel.getNombreMascota());
         mascotaResponse.setFechaNacimientoMascota(mascotaModel.getFechaNacimientoMascota());
-       // mascotaResponse.setEspecie(mascotaModel.getEspecie().getId());
-        //mascotaResponse.setRaza(mascotaModel.getRaza());
+        mascotaResponse.setEspecie(especie.getId());
+        mascotaResponse.setRaza(mascotaModel.getRaza());
         return mascotaResponse;
 
     }
