@@ -30,10 +30,5 @@ public class Especie {
     @Column(nullable = false)
     private Boolean exoticaBoolean;
 
-    public Especie orElseThrow(Object object) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'orElseThrow'");
-    }
-
 
 }
