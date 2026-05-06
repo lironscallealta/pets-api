@@ -24,20 +24,20 @@ public class Mascota {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 50, nullable = false)
+    @Column(name = "nombre_mascota", length = 50, nullable = false)
     private String nombreMascota;
 
-    @Column(name = "fecha_nacimiento", nullable = false)
+    @Column(name = "fecha_nacimiento_mascota", nullable = false)
     private LocalDate fechaNacimientoMascota;
 
-    @Column(nullable = false)
+    @Column(name = "es_docil_boolean") 
     private Boolean esDocilBoolean;
 
     @ManyToOne
-    @JoinColumn(nullable = false, name = "id_razas")
+    @JoinColumn(nullable = false, name = "id_raza")
     private Raza raza;
 
-    @Column(nullable = false)
+    @Column(name = "id_cliente")    
     private Long idCliente; // ANOTACION PERSONAL:MODIFICAR A CLIENTE CLIENTE
 
 }
