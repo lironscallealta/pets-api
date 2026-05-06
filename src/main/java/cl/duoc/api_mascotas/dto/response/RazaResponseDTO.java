@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RazaResponseDTO {
 
-    Long id;
-    EspecieResponseDTO especieResponse;
-    String nombreRaza;
-    String DescripcionRaza;
+    private Long id;
+    private String nombreRaza = "Mestizo";
+    private String DescripcionRaza;
+    private EspecieResponseDTO especieResponse;
 
 }

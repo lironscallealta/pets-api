@@ -12,5 +12,6 @@ public class EspecieResponseDTO {
     private Long id;
     private String nombreEspecie;
     private String descripcionEspecie;
+    private Boolean exoticaBoolean;
 
 }

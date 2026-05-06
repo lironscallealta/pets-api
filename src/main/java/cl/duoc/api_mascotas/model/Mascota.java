@@ -28,12 +28,11 @@ public class Mascota {
     @Column(name = "fecha_nacimiento", nullable = false)
     private LocalDate fechaNacimientoMascota;
 
-    @ManyToOne
-    @JoinColumn(nullable = false, name = "id_especies")
-    private Especie especie;
+    @Column(nullable = false)
+    private Boolean esDocilBoolean;
 
     @ManyToOne
-    @JoinColumn(name = "id_razas")
+    @JoinColumn(nullable = false, name = "id_razas")
     private Raza raza;
 
     @Column(nullable = false)

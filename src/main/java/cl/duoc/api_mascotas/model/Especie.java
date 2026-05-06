@@ -25,6 +25,15 @@ public class Especie {
     private String nombreEspecie;
 
     @Column(length = 200)
-    private String DescripcionEspecie;
+    private String descripcionEspecie;
+
+    @Column(nullable = false)
+    private Boolean exoticaBoolean;
+
+    public Especie orElseThrow(Object object) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'orElseThrow'");
+    }
+
 
 }

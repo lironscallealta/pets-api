@@ -13,7 +13,7 @@ public class MascotaResponseDTO {
     private Long id;
     private String nombreMascota;
     private LocalDate fechaNacimientoMascota;
-    private EspecieResponseDTO especieResponse;
+    private Boolean esDocilBoolean;
     private RazaResponseDTO razaResponse;
     private Long idCliente; // checar esto cuando se haga con el client
 

@@ -24,8 +24,7 @@ public class MascotaRequestDTO {
     private LocalDate fechaNacimientoMascota;
 
     @NotNull
-    @Positive
-    private Long idEspecie;
+    private Boolean esDocilBoolean;
 
     @NotNull
     @Positive

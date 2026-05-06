@@ -21,16 +21,16 @@ public class Raza {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-
-    @ManyToOne
-    @JoinColumn(nullable = false, name = "id_especies")
-    Especie especie;
+    private Long id;
 
     @Column(length = 30)
-    String nombreRaza;
+    private String nombreRaza = "Mestizo";
 
     @Column(length = 200)
-    String DescripcionRaza;
+    private String DescripcionRaza;
+
+    @ManyToOne
+    @JoinColumn(nullable = false, name = "id_razas")
+    private Especie especie;
 
 }
