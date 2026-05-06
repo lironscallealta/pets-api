@@ -30,7 +30,7 @@ public class Raza {
     private String DescripcionRaza;
 
     @ManyToOne
-    @JoinColumn(nullable = false, name = "id_razas")
+    @JoinColumn(nullable = false, name = "id_especies")
     private Especie especie;
 
 }
