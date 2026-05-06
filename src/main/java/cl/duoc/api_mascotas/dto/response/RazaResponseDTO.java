@@ -12,6 +12,6 @@ public class RazaResponseDTO {
     Long id;
     EspecieResponseDTO especieResponse;
     String nombreRaza;
-    String DescripcionEspecie;
+    String DescripcionRaza;
 
 }
