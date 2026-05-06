@@ -1,4 +1,5 @@
 package cl.duoc.api_mascotas.model;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,15 +20,17 @@ import lombok.NoArgsConstructor;
 public class Raza {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     @ManyToOne
-    @JoinColumn(nullable = false, name = "id_especie") 
+    @JoinColumn(nullable = false, name = "id_especies")
     Especie especie;
 
-    @Column(length = 30)        
-    String nombreRaza = "Desconocida";
+    @Column(length = 30)
+    String nombreRaza;
 
+    @Column(length = 200)
+    String DescripcionEspecie;
 
 }

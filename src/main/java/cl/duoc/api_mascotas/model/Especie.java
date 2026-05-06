@@ -1,4 +1,5 @@
 package cl.duoc.api_mascotas.model;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,10 +21,10 @@ public class Especie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 30)
+    @Column(length = 30, nullable = false)
     private String nombreEspecie;
-    
-    
+
+    @Column(length = 200)
     private String DescripcionEspecie;
 
 }

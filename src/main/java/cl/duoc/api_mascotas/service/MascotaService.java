@@ -1,14 +1,17 @@
 package cl.duoc.api_mascotas.service;
 
+import javax.management.RuntimeErrorException;
+
 import org.springframework.stereotype.Service;
 
-import cl.duoc.api_mascotas.client.UsuarioClient;
 import cl.duoc.api_mascotas.dto.request.MascotaRequestDTO;
+import cl.duoc.api_mascotas.dto.response.EspecieResponseDTO;
 import cl.duoc.api_mascotas.dto.response.MascotaResponseDTO;
-import cl.duoc.api_mascotas.model.Especie;
+import cl.duoc.api_mascotas.dto.response.RazaResponseDTO;
 import cl.duoc.api_mascotas.model.Mascota;
-import cl.duoc.api_mascotas.model.Raza;
+import cl.duoc.api_mascotas.repository.EspecieRepository;
 import cl.duoc.api_mascotas.repository.MascotaRepository;
+import cl.duoc.api_mascotas.repository.RazaRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -16,38 +19,44 @@ import lombok.RequiredArgsConstructor;
 public class MascotaService {
 
     private final MascotaRepository mascotaRepository;
-    private final UsuarioClient mascotaClient;
-    //private final Raza raza;
+    private final EspecieRepository especieRepository;
+    private final RazaRepository razaRepository;
 
+    private MascotaResponseDTO mapToMascotaToMascotaResponse(Mascota mascotaModel) {
 
-    public MascotaResponseDTO mapToDtoMascotaResponse(Mascota mascotaModel, Raza raza, Especie especie) {
         MascotaResponseDTO mascotaResponse = new MascotaResponseDTO();
-     
+        EspecieResponseDTO especieResponse = new EspecieResponseDTO();
+        RazaResponseDTO razaResponse = new RazaResponseDTO();
+
         mascotaResponse.setId(mascotaModel.getId());
         mascotaResponse.setNombreMascota(mascotaModel.getNombreMascota());
         mascotaResponse.setFechaNacimientoMascota(mascotaModel.getFechaNacimientoMascota());
-        mascotaResponse.setEspecie(especie.getId());
-        mascotaResponse.setRaza(mascotaModel.getRaza());
+        mascotaResponse.setEspecieResponse(especieResponse);
+        mascotaResponse.setRazaResponse(razaResponse);
+        mascotaResponse.setIdCliente(1L); // Esto modificar con webclient
+        // despues. Ahora es para prueba
+
         return mascotaResponse;
 
     }
 
-    public MascotaResponseDTO guardarMascota(MascotaRequestDTO mascotaRequest) {
+    private MascotaResponseDTO registrarMascota(MascotaRequestDTO mascotaRequest){
+        
+        especieRepository.findById(mascotaRequest.getIdEspecie()).orElseThrow(() -> new RuntimeException("No existe especie")); // moverlos a clase excepciones
+        razaRepository.findById(mascotaRequest.getIdRaza()).orElseThrow(() -> new RuntimeException("raza no existente")); // excepciones
+        // Clientcleinte.findById(mascotaRequest.getIdCliente()).orElseThrow(() -> new RuntimeException("Cliente no existente")); -> esto esta para despues 
 
-        Mascota mascota = new Mascota();
 
-        mascota.setNombreMascota(mascotaRequest.getNombreMascota());
+        Mascota mascotaModel = new Mascota();
 
-        // DtoFiestaResponse fiestaresponse =
-        // FiestaClient.obtenerFiestaPorId(request.getIdFiesta());
-        // Hacer algo parecido para poder conectarse al microservicio de Usuario
+        mascotaModel.setNombreMascota(mascotaRequest.getNombreMascota());
+        mascotaModel.setFechaNacimientoMascota(mascotaRequest.getFechaNacimientoMascota());
+        
+
+        
+        
+        
         return null;
-
     }
 
 }
-
-/*
- * Request → Model → BD → Response ---> idea → request → model → response →
- * service → controller
- */

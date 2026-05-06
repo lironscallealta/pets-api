@@ -1,4 +1,5 @@
 package cl.duoc.api_mascotas.model;
+
 import java.time.LocalDate;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,18 +25,18 @@ public class Mascota {
     @Column(length = 50, nullable = false)
     private String nombreMascota;
 
-    @Column(nullable = false)
-    private Long idCliente; // ANOTACION PERSONAL:MODIFICAR A CLIENTE CLIENTE
-
     @Column(name = "fecha_nacimiento", nullable = false)
     private LocalDate fechaNacimientoMascota;
 
     @ManyToOne
-    @JoinColumn(nullable = false, name = "id_especie")
+    @JoinColumn(nullable = false, name = "id_especies")
     private Especie especie;
 
     @ManyToOne
-    @JoinColumn(name = "id_raza")
+    @JoinColumn(name = "id_razas")
     private Raza raza;
+
+    @Column(nullable = false)
+    private Long idCliente; // ANOTACION PERSONAL:MODIFICAR A CLIENTE CLIENTE
 
 }
