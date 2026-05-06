@@ -1,5 +1,6 @@
 package cl.duoc.api_mascotas.service;
 
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 import cl.duoc.api_mascotas.dto.request.MascotaRequestDTO;
 import cl.duoc.api_mascotas.dto.response.EspecieResponseDTO;
@@ -17,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MascotaService {
 
-    private final MascotaRepository mascotaRepository;    
+    private final MascotaRepository mascotaRepository;
     private final RazaRepository razaRepository;
     // private final EspecieRepository especieRepository;
 
@@ -65,10 +66,7 @@ public class MascotaService {
         Raza razaRegistrar = razaRepository.findById(mascotaRequest.getIdRaza())
                 .orElseThrow(() -> new RuntimeException("raza no existente"));
 
-        // Especie especieRegistrar = razaRegistrar.getEspecie(); // podemos omitir esto
-        // ya que raza y especie van ligadas, pero para entender mejor el codigo esta
-        // asi
-        Mascota mascotaModel = new Mascota(); // para mapearlo depsues
+        Mascota mascotaModel = new Mascota();
 
         mascotaModel.setNombreMascota(mascotaRequest.getNombreMascota());
         mascotaModel.setFechaNacimientoMascota(mascotaRequest.getFechaNacimientoMascota());
@@ -83,4 +81,23 @@ public class MascotaService {
         return mascotaResponse;
     }
 
+    public Optional<MascotaResponseDTO> consultarMascotaId(Long idMascota) {
+
+        Mascota mascotaEncontrar = mascotaRepository.findById(idMascota).orElseThrow(); // verlo despues con los errores
+        MascotaResponseDTO mascotaResponse = mapToMascotaToMascotaResponse(mascotaEncontrar);
+        return Optional.of(mascotaResponse);
+
+    }
+
 }
+
+/*
+ * Notas
+ * public MascotaResponseDTO registrarMascota(MascotaRequestDTO mascotaRequest)
+ * {
+ * 
+ * // Especie especieRegistrar = razaRegistrar.getEspecie(); // podemos omitir
+ * esto
+ * // ya que raza y especie van ligadas, pero para entender mejor el codigo esta
+ * // asi
+ */
