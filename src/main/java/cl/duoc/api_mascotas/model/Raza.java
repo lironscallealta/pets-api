@@ -23,8 +23,8 @@ public class Raza {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 30)
-    private String nombreRaza = "Mestizo";
+    @Column(length = 30, nullable = false)
+    private String nombreRaza;
 
     @Column(length = 200)
     private String DescripcionRaza;

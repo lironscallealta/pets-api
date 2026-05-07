@@ -1,5 +1,7 @@
 package cl.duoc.api_mascotas.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 import cl.duoc.api_mascotas.dto.request.MascotaRequestDTO;
@@ -72,7 +74,7 @@ public class MascotaService {
         mascotaModel.setFechaNacimientoMascota(mascotaRequest.getFechaNacimientoMascota());
         mascotaModel.setEsDocilBoolean(mascotaRequest.getEsDocilBoolean());
         mascotaModel.setRaza(razaRegistrar);
-        mascotaModel.setIdCliente(null);
+        mascotaModel.setIdCliente(mascotaRequest.getIdCliente());
 
         mascotaRepository.save(mascotaModel);
 
@@ -83,12 +85,48 @@ public class MascotaService {
 
     public Optional<MascotaResponseDTO> consultarMascotaId(Long idMascota) {
 
-        Mascota mascotaEncontrar = mascotaRepository.findById(idMascota).orElseThrow(); // verlo despues con los errores
-        MascotaResponseDTO mascotaResponse = mapToMascotaToMascotaResponse(mascotaEncontrar);
+        Mascota mascotaEncontrarId = mascotaRepository.findById(idMascota).orElseThrow(); // verlo despues con los
+                                                                                          // errores
+        MascotaResponseDTO mascotaResponse = mapToMascotaToMascotaResponse(mascotaEncontrarId);
         return Optional.of(mascotaResponse);
 
     }
 
+    public List<MascotaResponseDTO> consultarMascotas() {
+
+        List<Mascota> mascotaEncontrar = mascotaRepository.findAll();
+        return mascotaEncontrar.stream().map(this::mapToMascotaToMascotaResponse).toList();
+        // el map se podria pasar asi tambien, para probar en otro microservicio .map(m
+        // -> this.mapToMascotaToMascotaResponse(m)) m seria el objeto
+
+    }
+
+    // Metodo hecho de la forma que siempre he usado
+    public List<MascotaResponseDTO> consultarMascotasdos() {
+
+        List<MascotaResponseDTO> mascotaResponseList = new ArrayList<>();
+
+        List<Mascota> mascotaEncontrar = mascotaRepository.findAll();
+
+        for (Mascota mascota : mascotaEncontrar) {
+            MascotaResponseDTO mascotaResponse = mapToMascotaToMascotaResponse(mascota);
+            mascotaResponseList.add(mascotaResponse);
+        }
+        return mascotaResponseList;
+
+    }
+/* 
+    public Optional<MascotaResponseDTO> eliminarMascotaId(Long idMascota) {
+        Optional<Mascota> mascotaEliminar = mascotaRepository.findById(idMascota);
+        if (mascotaEliminar.isPresent()) {
+            
+        }
+        MascotaResponseDTO mascotaResponse = mapToMascotaToMascotaResponse(mascotaEliminar);
+        mascotaRepository.deleteById(idMascota);
+        return Optional.of(mascotaResponse);
+
+    }
+*/
 }
 
 /*
