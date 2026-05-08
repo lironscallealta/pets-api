@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -122,18 +123,43 @@ public class MascotaService {
         }
         return mascotaResponseList;
     }
+
+    @Transactional // lo escribi por que no me guardaba los set. Probablememente escribirlo en los
+    // metodos eliminar y crear despues
+    public Optional<MascotaResponseDTO> actualizarMascota(Long idMascota, MascotaRequestDTO nuevosDatos) {
+
+        Mascota mascotaModificar = mascotaRepository.findById(idMascota).orElseThrow(); // modificar despues con error
+        mascotaModificar.setNombreMascota(nuevosDatos.getNombreMascota());
+        mascotaModificar.setFechaNacimientoMascota(nuevosDatos.getFechaNacimientoMascota());
+        mascotaModificar.setEsDocilBoolean(nuevosDatos.getEsDocilBoolean());
+        mascotaModificar.setIdCliente(nuevosDatos.getIdCliente());
+        MascotaResponseDTO mascotaResponse = mapToMascotaToMascotaResponse(mascotaModificar);
+        return Optional.of(mascotaResponse);
+    }
+
+    public Optional<MascotaResponseDTO> eliminarMascotaId(Long idMascota) {
+
+        Mascota mascotaEliminar = mascotaRepository.findById(idMascota).orElseThrow();
+        mascotaEliminar.toString(); // Consola
+
+        mascotaRepository.delete(mascotaEliminar);
+        MascotaResponseDTO mascotaResponse = mapToMascotaToMascotaResponse(mascotaEliminar);
+        return Optional.of(mascotaResponse);
+    }
+
     /*
-        public Optional<MascotaResponseDTO> eliminarMascotaId(Long idMascota) {
-            Optional<Mascota> mascotaEliminar = mascotaRepository.findById(idMascota);
-            if (mascotaEliminar.isPresent()) {
-
-            }
-            MascotaResponseDTO mascotaResponse = mapToMascotaToMascotaResponse(mascotaEliminar);
-            mascotaRepository.deleteById(idMascota);
-            return Optional.of(mascotaResponse);
-
-        }
-    */
+     * public Optional<MascotaResponseDTO> eliminarMascotaId(Long idMascota) {
+     * Optional<Mascota> mascotaEliminar = mascotaRepository.findById(idMascota);
+     * if (mascotaEliminar.isPresent()) {
+     *
+     * }
+     * MascotaResponseDTO mascotaResponse =
+     * mapToMascotaToMascotaResponse(mascotaEliminar);
+     * mascotaRepository.deleteById(idMascota);
+     * return Optional.of(mascotaResponse);
+     *
+     * }
+     */
 }
 
 /*

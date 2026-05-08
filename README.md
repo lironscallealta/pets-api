@@ -1,4 +1,4 @@
-#  Pets Microservice (pets-api v1)
+#  Pets Microservice (pet-api v1)
 
 ## Descripción
 
@@ -245,4 +245,3 @@ La API estará disponible en `http://localhost:8082/api/v1/mascotas`
 > **DuocUC — FullStack 1 © 2026**
 
 ---
-

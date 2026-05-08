@@ -13,10 +13,13 @@ import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class MascotaController {
 
-    // comentarios segun que metodos espera escritos en readme
+    // comentarios segun que metodos espera escritos en LAYOUT-GUIDE-FULL-PROYECT
     // Action | Method | Endpoint
 
     private final MascotaService mascotaService;
@@ -34,20 +37,23 @@ public class MascotaController {
     @PostMapping() // | Create | POST | `/api/v1/users`
     public ResponseEntity<MascotaResponseDTO> registrarMascota(@Valid @RequestBody MascotaRequestDTO mascotaRequest) {
         MascotaResponseDTO registrarMascota = mascotaService.registrarMascota(mascotaRequest);
-        return ResponseEntity.ok(registrarMascota);
+        System.out.println("-------------Creacion de mascotas por cuerpo----------"); // mensaje consola para mi
+        return ResponseEntity.status(HttpStatus.CREATED).body(registrarMascota);
     }
 
     @GetMapping("/{id}") // | Get one | GET | `/api/v1/users/{id}` |
-    public ResponseEntity<MascotaResponseDTO> consultarMascotaId(@PathVariable Long id) {
+    public ResponseEntity<Optional<MascotaResponseDTO>> consultarMascotaId(@PathVariable Long id) {
         Optional<MascotaResponseDTO> consultarMascotaId = mascotaService.consultarMascotaId(id);
-        return ResponseEntity.ok(consultarMascotaId.get());
+        System.out.println("-------------Consulta mascotas por ID----------");
+        return ResponseEntity.ok(consultarMascotaId);
     }
 
     @GetMapping() // | Get all | GET | `/api/v1/users` |
-    public List<MascotaResponseDTO> consultarMascotas() {
+    public ResponseEntity<List<MascotaResponseDTO>> consultarMascotas() {
 
         List<MascotaResponseDTO> consultarMascotas = mascotaService.consultarMascotas();
-        return consultarMascotas;
+        System.out.println("-------------Consulta mascotas----------");
+        return ResponseEntity.ok(consultarMascotas);
     }
 
     // metodo prueba en caso de usarlo seria por el get all anterior
@@ -55,13 +61,25 @@ public class MascotaController {
     public List<MascotaResponseDTO> consultarMascotasdos() {
 
         List<MascotaResponseDTO> consultarMascotas = mascotaService.consultarMascotasdos();
+        System.out.println("-------------consulta todas las mascotas segundo metodo----------");
         return consultarMascotas;
     }
-    /*
-    // dejar despues misma escritura de los anteriores
-    @DeleteMapping("/{id}") // | Delete | DELETE | `/api/v1/users/{id}` |
-    public Optional<MascotaResponseDTO> eliminarMascotaId(Long id) {
-        return mascotaService.eliminarMascotaId(id);
 
-    }*/
+    @PutMapping("/{id}")
+    public ResponseEntity<Optional<MascotaResponseDTO>> actualizarMascota(
+            @PathVariable Long id, @RequestBody MascotaRequestDTO nuevosDatos) {
+
+        Optional<MascotaResponseDTO> actualizarMascota = mascotaService.actualizarMascota(id, nuevosDatos);
+        System.out.println("-------------modificada info----------");
+        // return ResponseEntity.ok(actualizarMascota);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(actualizarMascota);
+    }
+
+    @DeleteMapping("/{id}") // | Delete | DELETE | `/api/v1/users/{id}` |
+    public ResponseEntity<Optional<MascotaResponseDTO>> eliminarMascotaId(@PathVariable Long id) {
+
+        Optional<MascotaResponseDTO> eliminarMascotaId = mascotaService.eliminarMascotaId(id);
+        System.out.println("-------------Mascota eliminada por Id----------");
+        return ResponseEntity.ok(eliminarMascotaId);
+    }
 }
