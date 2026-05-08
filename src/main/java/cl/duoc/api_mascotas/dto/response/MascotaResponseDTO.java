@@ -1,3 +1,9 @@
+/*
+ * Copyright © 2026 DuocUC FullStack 1
+ * Eduardo Bray
+ * Rodrigo Callealta
+ * Fernando Villalobos
+ */
 package cl.duoc.api_mascotas.dto.response;
 
 import java.time.LocalDate;
@@ -16,5 +22,4 @@ public class MascotaResponseDTO {
     private Boolean esDocilBoolean;
     private RazaResponseDTO razaResponse;
     private Long idCliente; // checar esto cuando se haga con el client
-
 }

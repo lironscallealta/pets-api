@@ -1,6 +1,6 @@
 # API-Mascotas Dependencies
 
-* **Lombok** 
+* **Lombok**
 * **Spring Web**
 * **MySQL Driver**
 * **Validation**

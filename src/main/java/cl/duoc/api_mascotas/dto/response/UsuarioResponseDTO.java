@@ -1,3 +1,9 @@
+/*
+ * Copyright © 2026 DuocUC FullStack 1
+ * Eduardo Bray
+ * Rodrigo Callealta
+ * Fernando Villalobos
+ */
 package cl.duoc.api_mascotas.dto.response;
 
 import lombok.AllArgsConstructor;
@@ -9,7 +15,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UsuarioResponseDTO {
 
-    
     private Long idUsuario;
     private String nombreUsuario;
     /*private String apellidoUsuario;
@@ -18,7 +23,6 @@ public class UsuarioResponseDTO {
     private String telefono;
     private String email;*/
 
-
-    //DATOS EN COMENTARIO PARA CORRER EL PROGRAMA RAPIDO
-    //SACAR COMENTARIO DE ATRIBUTOS DESPUES
+    // DATOS EN COMENTARIO PARA CORRER EL PROGRAMA RAPIDO
+    // SACAR COMENTARIO DE ATRIBUTOS DESPUES
 }

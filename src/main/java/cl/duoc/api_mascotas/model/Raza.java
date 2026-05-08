@@ -1,3 +1,9 @@
+/*
+ * Copyright © 2026 DuocUC FullStack 1
+ * Eduardo Bray
+ * Rodrigo Callealta
+ * Fernando Villalobos
+ */
 package cl.duoc.api_mascotas.model;
 
 import jakarta.persistence.Column;
@@ -32,5 +38,4 @@ public class Raza {
     @ManyToOne
     @JoinColumn(nullable = false, name = "id_especie")
     private Especie especie;
-
 }

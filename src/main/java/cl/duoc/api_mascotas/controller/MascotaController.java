@@ -1,20 +1,25 @@
+/*
+ * Copyright © 2026 DuocUC FullStack 1
+ * Eduardo Bray
+ * Rodrigo Callealta
+ * Fernando Villalobos
+ */
 package cl.duoc.api_mascotas.controller;
 
+import cl.duoc.api_mascotas.dto.request.MascotaRequestDTO;
+import cl.duoc.api_mascotas.dto.response.MascotaResponseDTO;
+import cl.duoc.api_mascotas.service.MascotaService;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import cl.duoc.api_mascotas.dto.request.MascotaRequestDTO;
-import cl.duoc.api_mascotas.dto.response.MascotaResponseDTO;
-import cl.duoc.api_mascotas.service.MascotaService;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/v1/mascotas")
@@ -30,7 +35,6 @@ public class MascotaController {
     public ResponseEntity<MascotaResponseDTO> registrarMascota(@Valid @RequestBody MascotaRequestDTO mascotaRequest) {
         MascotaResponseDTO registrarMascota = mascotaService.registrarMascota(mascotaRequest);
         return ResponseEntity.ok(registrarMascota);
-
     }
 
     @GetMapping("/{id}") // | Get one | GET | `/api/v1/users/{id}` |
@@ -53,7 +57,7 @@ public class MascotaController {
         List<MascotaResponseDTO> consultarMascotas = mascotaService.consultarMascotasdos();
         return consultarMascotas;
     }
-/* 
+    /*
     // dejar despues misma escritura de los anteriores
     @DeleteMapping("/{id}") // | Delete | DELETE | `/api/v1/users/{id}` |
     public Optional<MascotaResponseDTO> eliminarMascotaId(Long id) {

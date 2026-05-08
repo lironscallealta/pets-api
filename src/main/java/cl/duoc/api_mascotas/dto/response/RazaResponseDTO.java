@@ -1,3 +1,9 @@
+/*
+ * Copyright © 2026 DuocUC FullStack 1
+ * Eduardo Bray
+ * Rodrigo Callealta
+ * Fernando Villalobos
+ */
 package cl.duoc.api_mascotas.dto.response;
 
 import lombok.AllArgsConstructor;
@@ -13,5 +19,4 @@ public class RazaResponseDTO {
     private String nombreRaza = "Mestizo";
     private String DescripcionRaza;
     private EspecieResponseDTO especieResponse;
-
 }
