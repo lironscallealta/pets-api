@@ -137,6 +137,7 @@ public class MascotaService {
         return Optional.of(mascotaResponse);
     }
 
+    @Transactional
     public Optional<MascotaResponseDTO> eliminarMascotaId(Long idMascota) {
 
         Mascota mascotaEliminar = mascotaRepository.findById(idMascota).orElseThrow();
