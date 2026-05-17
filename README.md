@@ -1,4 +1,4 @@
-#  Pets Microservice (pet-api v1)
+#  Pets Microservice (pets-api v1)
 
 ## Descripción
 

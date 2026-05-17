@@ -10,9 +10,9 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>cl.duoc</groupId>
-	<artifactId>api-mascotas</artifactId>
+	<artifactId>pets-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>api-mascotas</name>
+	<name>pets-api</name>
 	<description />
 	<url />
 	<licenses>

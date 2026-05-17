@@ -17,7 +17,7 @@ services:
   #     - db
   #   command: ["bash", "./entrypoint.sh"]
 
-  db:
+  db_mascotas:
     image: mysql:lts
     ports:
       - ${HOST_DB_PORT:-3306}:3306
@@ -40,12 +40,12 @@ services:
     env_file:
       - .env
     environment:
-      PMA_HOST: db
+      PMA_HOST: db_mascotas
       PMA_PORT: 3306
     networks:
       - fullstack_default
     depends_on:
-      - db
+      - db_mascotas
 
 volumes:
   mysql_data:
