@@ -138,14 +138,10 @@ public class MascotaService {
     }
 
     @Transactional
-    public Optional<MascotaResponseDTO> eliminarMascotaId(Long idMascota) {
+    public void eliminarMascotaId(Long idMascota) {
 
         Mascota mascotaEliminar = mascotaRepository.findById(idMascota).orElseThrow();
-        mascotaEliminar.toString(); // Consola
-
         mascotaRepository.delete(mascotaEliminar);
-        MascotaResponseDTO mascotaResponse = mapToMascotaToMascotaResponse(mascotaEliminar);
-        return Optional.of(mascotaResponse);
     }
 
     /*

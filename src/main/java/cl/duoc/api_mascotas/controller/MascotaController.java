@@ -33,23 +33,17 @@ public class MascotaController {
 
     @PostMapping()
     public ResponseEntity<MascotaResponseDTO> registrarMascota(@Valid @RequestBody MascotaRequestDTO mascotaRequest) {
-        MascotaResponseDTO registrarMascota = mascotaService.registrarMascota(mascotaRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body(registrarMascota);
+        return ResponseEntity.status(HttpStatus.CREATED).body(mascotaService.registrarMascota(mascotaRequest));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Optional<MascotaResponseDTO>> consultarMascotaId(@PathVariable Long id) {
-        Optional<MascotaResponseDTO> consultarMascotaId = mascotaService.consultarMascotaId(id);
-
-        return ResponseEntity.ok(consultarMascotaId);
+        return ResponseEntity.ok(mascotaService.consultarMascotaId(id));
     }
 
     @GetMapping()
     public ResponseEntity<List<MascotaResponseDTO>> consultarMascotas() {
-
-        List<MascotaResponseDTO> consultarMascotas = mascotaService.consultarMascotas();
-
-        return ResponseEntity.ok(consultarMascotas);
+        return ResponseEntity.ok(mascotaService.consultarMascotas());
     }
 
     @GetMapping("/getdos")
@@ -64,17 +58,12 @@ public class MascotaController {
     public ResponseEntity<Optional<MascotaResponseDTO>> actualizarMascota(
             @PathVariable Long id, @RequestBody MascotaRequestDTO nuevosDatos) {
 
-        Optional<MascotaResponseDTO> actualizarMascota = mascotaService.actualizarMascota(id, nuevosDatos);
-
-        // return ResponseEntity.ok(actualizarMascota);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(actualizarMascota);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(mascotaService.actualizarMascota(id, nuevosDatos));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Optional<MascotaResponseDTO>> eliminarMascotaId(@PathVariable Long id) {
-
-        Optional<MascotaResponseDTO> eliminarMascotaId = mascotaService.eliminarMascotaId(id);
-
-        return ResponseEntity.ok(eliminarMascotaId);
+    public ResponseEntity<Void> eliminarMascotaId(@PathVariable Long id) {
+        mascotaService.eliminarMascotaId(id);
+        return ResponseEntity.noContent().build();
     }
 }
