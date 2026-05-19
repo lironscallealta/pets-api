@@ -1,24 +1,45 @@
-# Recursos del Proyecto 🚀
+# Recursos — Pets-API (Mascotas)
 
-Este archivo contiene los accesos rápidos para probar y administrar los microservicios.
+Accesos rápidos para desarrollo local. Los puertos salen de tu archivo `.env` en esta carpeta.
 
-## 📊 Paneles de Control (phpMyAdmin)
-Permite visualizar y gestionar las tablas de la base de datos de cada microservicio.
+## Este microservicio
 
-- **Usuarios:** [http://localhost:8091](http://localhost:8091)
-- **Mascotas:** [http://localhost:8090](http://localhost:8090)
-- **Veterinarios:** [http://localhost:8092](http://localhost:8092)
+| Recurso | URL / valor |
+|--------|-------------|
+| **API** | [http://localhost:8090](http://localhost:8090) |
+| **Swagger UI** | [http://localhost:8090/swagger-ui/index.html](http://localhost:8090/swagger-ui/index.html) |
+| **phpMyAdmin** | [http://localhost:8190](http://localhost:8190) |
+| **MySQL (host)** | `localhost` |
+| **MySQL (puerto)** | `3390` |
+| **Base de datos** | `pets` |
+| **Usuario** | `user` |
+| **Repositorio** | [github.com/lironscallealta/api-mascotas](https://github.com/lironscallealta/api-mascotas) |
 
-## 🚀 Documentación de API (Swagger UI)
-Permite probar los endpoints directamente desde el navegador.
+## Levantar la base de datos (obligatorio antes de la API)
 
-- **Usuarios:** [http://localhost:8081/swagger-ui/index.html](http://localhost:8081/swagger-ui/index.html)
-- **Mascotas:** [http://localhost:8082/swagger-ui/index.html](http://localhost:8082/swagger-ui/index.html)
-- **Veterinarios:** [http://localhost:8083/swagger-ui/index.html](http://localhost:8083/swagger-ui/index.html)
+Desde la carpeta `pets-api`:
 
-## 🛠️ Puertos de Base de Datos (MySQL)
-Para conexión desde herramientas como DBeaver o Workbench.
+```bash
+docker compose up db -d
+```
 
-- **Usuarios DB:** Puerto `3310`
-- **Mascotas DB:** Puerto `3306`
-- **Veterinarios DB:** Puerto `3308`
+Comprueba que el contenedor `db` está en ejecución (Docker Desktop). La app se conecta a `localhost:3390`, no al 3306 por defecto de MySQL.
+
+## Ecosistema completo (los 3 microservicios)
+
+| Microservicio | API | Swagger | phpMyAdmin | MySQL |
+|---------------|-----|---------|------------|-------|
+| **Users** | [8091](http://localhost:8091) | [8091/swagger-ui](http://localhost:8091/swagger-ui/index.html) | [8191](http://localhost:8191) | `3391` → BD `users` |
+| **Pets** | [8090](http://localhost:8090) | [8090/swagger-ui](http://localhost:8090/swagger-ui/index.html) | [8190](http://localhost:8190) | `3390` → BD `pets` |
+| **Vets** | [8092](http://localhost:8092) | [8092/swagger-ui](http://localhost:8092/swagger-ui/index.html) | [8192](http://localhost:8192) | `3392` → BD `vets` |
+
+Cada uno usa su propio `docker compose` dentro de su carpeta (`users-api`, `pets-api`, `vets-api`).
+
+## Si falla la conexión (`Connection refused` / `Communications link failure`)
+
+1. **MySQL no está corriendo** — Spring/Flyway no encuentran nada en el puerto configurado.
+2. En **pets-api** el puerto es **`3390`** (variable `HOST_DB_PORT` en `.env`), no `3306`.
+3. Solución: `docker compose up db -d` en `pets-api` y esperar ~30 s al healthcheck.
+4. Verifica que exista el archivo `.env` (puedes copiarlo desde `.env.example` y ajustar puertos como en tu `.env` actual).
+
+Credenciales por defecto en `.env`: usuario `user`, contraseña `password`, root `root_password`.
