@@ -29,39 +29,34 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class MascotaController {
 
-    // comentarios segun que metodos espera escritos en LAYOUT-GUIDE-FULL-PROYECT
-    // Action | Method | Endpoint
-
     private final MascotaService mascotaService;
 
-    @PostMapping() // | Create | POST | `/api/v1/users`
+    @PostMapping()
     public ResponseEntity<MascotaResponseDTO> registrarMascota(@Valid @RequestBody MascotaRequestDTO mascotaRequest) {
         MascotaResponseDTO registrarMascota = mascotaService.registrarMascota(mascotaRequest);
-        System.out.println("-------------Creacion de mascotas por cuerpo----------"); // mensaje consola para mi
         return ResponseEntity.status(HttpStatus.CREATED).body(registrarMascota);
     }
 
-    @GetMapping("/{id}") // | Get one | GET | `/api/v1/users/{id}` |
+    @GetMapping("/{id}")
     public ResponseEntity<Optional<MascotaResponseDTO>> consultarMascotaId(@PathVariable Long id) {
         Optional<MascotaResponseDTO> consultarMascotaId = mascotaService.consultarMascotaId(id);
-        System.out.println("-------------Consulta mascotas por ID----------");
+
         return ResponseEntity.ok(consultarMascotaId);
     }
 
-    @GetMapping() // | Get all | GET | `/api/v1/users` |
+    @GetMapping()
     public ResponseEntity<List<MascotaResponseDTO>> consultarMascotas() {
 
         List<MascotaResponseDTO> consultarMascotas = mascotaService.consultarMascotas();
-        System.out.println("-------------Consulta mascotas----------");
+
         return ResponseEntity.ok(consultarMascotas);
     }
 
-    // metodo prueba en caso de usarlo seria por el get all anterior
-    @GetMapping("/getdos") // | Get all | GET | `/api/v1/users/getdos` |
+    @GetMapping("/getdos")
     public List<MascotaResponseDTO> consultarMascotasdos() {
 
         List<MascotaResponseDTO> consultarMascotas = mascotaService.consultarMascotasdos();
-        System.out.println("-------------consulta todas las mascotas segundo metodo----------");
+
         return consultarMascotas;
     }
 
@@ -70,16 +65,16 @@ public class MascotaController {
             @PathVariable Long id, @RequestBody MascotaRequestDTO nuevosDatos) {
 
         Optional<MascotaResponseDTO> actualizarMascota = mascotaService.actualizarMascota(id, nuevosDatos);
-        System.out.println("-------------modificada info----------");
+
         // return ResponseEntity.ok(actualizarMascota);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(actualizarMascota);
     }
 
-    @DeleteMapping("/{id}") // | Delete | DELETE | `/api/v1/users/{id}` |
+    @DeleteMapping("/{id}")
     public ResponseEntity<Optional<MascotaResponseDTO>> eliminarMascotaId(@PathVariable Long id) {
 
         Optional<MascotaResponseDTO> eliminarMascotaId = mascotaService.eliminarMascotaId(id);
-        System.out.println("-------------Mascota eliminada por Id----------");
+
         return ResponseEntity.ok(eliminarMascotaId);
     }
 }
