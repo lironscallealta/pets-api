@@ -25,7 +25,7 @@ docker compose up db phpmyadmin -d
 
 ### Comprobar que es la BD correcta
 
-En el panel izquierdo de phpMyAdmin debe aparecer la base **`pets`**.  
+En el panel izquierdo de phpMyAdmin debe aparecer la base **`pets`**.
 Si ves `users` o `vets`, cerraste otro puerto por error (8191 o 8192).
 
 ---
