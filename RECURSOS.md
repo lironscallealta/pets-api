@@ -1,45 +1,83 @@
 # Recursos — Pets-API (Mascotas)
 
-Accesos rápidos para desarrollo local. Los puertos salen de tu archivo `.env` en esta carpeta.
+Guía para **ver y administrar la base de datos** con phpMyAdmin. Los puertos salen de tu `.env`.
 
-## Este microservicio
+## Ver la base de datos (phpMyAdmin)
 
-| Recurso | URL / valor |
-|--------|-------------|
-| **API** | [http://localhost:8090](http://localhost:8090) |
-| **Swagger UI** | [http://localhost:8090/swagger-ui/index.html](http://localhost:8090/swagger-ui/index.html) |
-| **phpMyAdmin** | [http://localhost:8190](http://localhost:8190) |
-| **MySQL (host)** | `localhost` |
-| **MySQL (puerto)** | `3390` |
-| **Base de datos** | `pets` |
-| **Usuario** | `user` |
-| **Repositorio** | [github.com/lironscallealta/api-mascotas](https://github.com/lironscallealta/api-mascotas) |
-
-## Levantar la base de datos (obligatorio antes de la API)
+### 1. Levantar MySQL y phpMyAdmin
 
 Desde la carpeta `pets-api`:
 
 ```bash
-docker compose up db -d
+docker compose up db phpmyadmin -d
 ```
 
-Comprueba que el contenedor `db` está en ejecución (Docker Desktop). La app se conecta a `localhost:3390`, no al 3306 por defecto de MySQL.
+Espera ~30 s a que `db` esté **healthy** en Docker Desktop.
 
-## Ecosistema completo (los 3 microservicios)
+### 2. Abrir en el navegador
 
-| Microservicio | API | Swagger | phpMyAdmin | MySQL |
-|---------------|-----|---------|------------|-------|
-| **Users** | [8091](http://localhost:8091) | [8091/swagger-ui](http://localhost:8091/swagger-ui/index.html) | [8191](http://localhost:8191) | `3391` → BD `users` |
-| **Pets** | [8090](http://localhost:8090) | [8090/swagger-ui](http://localhost:8090/swagger-ui/index.html) | [8190](http://localhost:8190) | `3390` → BD `pets` |
-| **Vets** | [8092](http://localhost:8092) | [8092/swagger-ui](http://localhost:8092/swagger-ui/index.html) | [8192](http://localhost:8192) | `3392` → BD `vets` |
+| Recurso | Enlace |
+|--------|--------|
+| **phpMyAdmin (mascotas)** | [http://localhost:8190](http://localhost:8190) |
 
-Cada uno usa su propio `docker compose` dentro de su carpeta (`users-api`, `pets-api`, `vets-api`).
+### 3. Iniciar sesión en phpMyAdmin
 
-## Si falla la conexión (`Connection refused` / `Communications link failure`)
+| Campo | Valor |
+|-------|--------|
+| Servidor | `db` (si no funciona, prueba dejar el que venga por defecto) |
+| Usuario | `user` |
+| Contraseña | `password` |
+| Base de datos | `pets` |
 
-1. **MySQL no está corriendo** — Spring/Flyway no encuentran nada en el puerto configurado.
-2. En **pets-api** el puerto es **`3390`** (variable `HOST_DB_PORT` en `.env`), no `3306`.
-3. Solución: `docker compose up db -d` en `pets-api` y esperar ~30 s al healthcheck.
-4. Verifica que exista el archivo `.env` (puedes copiarlo desde `.env.example` y ajustar puertos como en tu `.env` actual).
+Usuario root (solo si lo necesitas): `root` / `root_password`
 
-Credenciales por defecto en `.env`: usuario `user`, contraseña `password`, root `root_password`.
+---
+
+## Conexión directa a MySQL (DBeaver, Workbench, etc.)
+
+| Parámetro | Valor |
+|-----------|--------|
+| Host | `localhost` |
+| Puerto | `3390` |
+| Base de datos | `pets` |
+| Usuario | `user` |
+| Contraseña | `password` |
+
+> MySQL **no** se abre en el navegador como una web normal; usa phpMyAdmin o un cliente SQL.
+
+---
+
+## Las 3 bases del proyecto (phpMyAdmin)
+
+Cada microservicio tiene su propio Docker. Levanta `db` + `phpmyadmin` en cada carpeta antes de abrir el enlace.
+
+| Microservicio | phpMyAdmin | Puerto MySQL | Base de datos |
+|---------------|------------|--------------|---------------|
+| **Pets** | [http://localhost:8190](http://localhost:8190) | `3390` | `pets` |
+| **Users** | [http://localhost:8191](http://localhost:8191) | `3391` | `users` |
+| **Vets** | [http://localhost:8192](http://localhost:8192) | `3392` | `vets` |
+
+Credenciales iguales en los tres: usuario `user`, contraseña `password`.
+
+---
+
+## API y Swagger (solo si Spring está corriendo)
+
+Estos enlaces **no** funcionan solo con Docker `db`. Necesitas ejecutar la aplicación (IDE o `mvn spring-boot:run`):
+
+| Recurso | Enlace |
+|--------|--------|
+| Swagger | [http://localhost:8090/swagger-ui/index.html](http://localhost:8090/swagger-ui/index.html) |
+
+---
+
+## Si phpMyAdmin no carga
+
+1. Docker Desktop abierto.
+2. Contenedores `pets-api-db-1` y `pets-api-phpmyadmin-1` en ejecución.
+3. Comando: `docker compose up db phpmyadmin -d` dentro de `pets-api`.
+4. Probar [http://localhost:8190](http://localhost:8190) (no uses el puerto `3390` en el navegador).
+
+## Repositorio
+
+[github.com/lironscallealta/api-mascotas](https://github.com/lironscallealta/api-mascotas)
