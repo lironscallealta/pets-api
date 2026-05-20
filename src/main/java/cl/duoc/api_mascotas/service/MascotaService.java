@@ -10,6 +10,7 @@ import cl.duoc.api_mascotas.dto.request.MascotaRequestDTO;
 import cl.duoc.api_mascotas.dto.response.EspecieResponseDTO;
 import cl.duoc.api_mascotas.dto.response.MascotaResponseDTO;
 import cl.duoc.api_mascotas.dto.response.RazaResponseDTO;
+import cl.duoc.api_mascotas.exception.BadRequestException;
 import cl.duoc.api_mascotas.exception.ResourceNotFoundException;
 import cl.duoc.api_mascotas.model.Mascota;
 import cl.duoc.api_mascotas.model.Raza;
@@ -66,6 +67,11 @@ public class MascotaService {
 
     @Transactional
     public MascotaResponseDTO registrarMascota(MascotaRequestDTO mascotaRequest) {
+
+        if (mascotaRequest.getNombreMascota() == null
+                || mascotaRequest.getNombreMascota().isBlank()) {
+            throw new BadRequestException("El nombre de la mascota es requerido y no puede estar vacío.");
+        }
 
         Raza razaRegistrar = razaRepository
                 .findById(mascotaRequest.getIdRaza())
