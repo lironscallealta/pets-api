@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 // import cl.duoc.api_mascotas.dto.response.UsuarioResponseDTO;
@@ -27,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class MascotaService {
 
     private final MascotaRepository mascotaRepository;
@@ -67,6 +69,7 @@ public class MascotaService {
 
     @Transactional
     public MascotaResponseDTO registrarMascota(MascotaRequestDTO mascotaRequest) {
+        log.info("Registrando mascota: {}", mascotaRequest.getNombreMascota());
 
         if (mascotaRequest.getNombreMascota() == null
                 || mascotaRequest.getNombreMascota().isBlank()) {
@@ -94,6 +97,7 @@ public class MascotaService {
     }
 
     public Optional<MascotaResponseDTO> consultarMascotaId(Long idMascota) {
+        log.info("Consultando mascota por id: {}", idMascota);
 
         Mascota mascotaEncontrarId = mascotaRepository
                 .findById(idMascota)
