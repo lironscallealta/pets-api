@@ -6,6 +6,7 @@
  */
 package cl.duoc.api_mascotas.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,12 +17,24 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Schema(description = "Formato estándar de error de la API")
 public class DtoApiError {
 
-    private LocalDate timestamp; // Fecha y hora en la que ocurrió el error.
-    private int status; // Código de estado HTTP del error (ej. 404, 400).
-    private String error; // Nombre formal del estado HTTP (ej. "Not Found").
-    private String message; // Mensaje amigable o detallado explicando la causa del error.
-    private String path; // Ruta de la URL donde ocurrió el error (ej. "/mascota/1").
-    private String claseException; // Nombre de la clase de excepción de Java que provocó el error.
+    @Schema(description = "Fecha del error", example = "2026-06-21")
+    private LocalDate timestamp;
+
+    @Schema(description = "Código HTTP", example = "404")
+    private int status;
+
+    @Schema(description = "Nombre del error HTTP", example = "Not Found")
+    private String error;
+
+    @Schema(description = "Mensaje descriptivo", example = "Mascota no encontrada con id: 99")
+    private String message;
+
+    @Schema(description = "Ruta donde ocurrió el error", example = "/api/v1/pets/99")
+    private String path;
+
+    @Schema(description = "Clase de excepción Java", example = "ResourceNotFoundException")
+    private String claseException;
 }
