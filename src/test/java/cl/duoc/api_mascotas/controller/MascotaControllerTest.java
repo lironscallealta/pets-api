@@ -8,12 +8,14 @@ package cl.duoc.api_mascotas.controller;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -24,6 +26,7 @@ import cl.duoc.api_mascotas.exception.ResourceNotFoundException;
 import cl.duoc.api_mascotas.security.JwtAuthFilter;
 import cl.duoc.api_mascotas.service.MascotaService;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,9 +105,46 @@ class MascotaControllerTest {
     }
 
     @Test
+    void consultarMascotasDebeRetornar200() throws Exception {
+        MascotaResponseDTO response = new MascotaResponseDTO(1L, "Firulais", LocalDate.of(2020, 5, 15), true, null, 1L);
+
+        when(mascotaService.consultarMascotas()).thenReturn(List.of(response));
+
+        mockMvc.perform(get("/api/v1/pets"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].nombreMascota").value("Firulais"));
+    }
+
+    @Test
+    void actualizarMascotaDebeRetornar202CuandoExiste() throws Exception {
+        MascotaRequestDTO request =
+                new MascotaRequestDTO("Firulais Actualizado", LocalDate.of(2020, 5, 15), false, 2L, 1L);
+        MascotaResponseDTO response =
+                new MascotaResponseDTO(1L, "Firulais Actualizado", LocalDate.of(2020, 5, 15), false, null, 1L);
+
+        when(mascotaService.actualizarMascota(eq(1L), any(MascotaRequestDTO.class)))
+                .thenReturn(Optional.of(response));
+
+        mockMvc.perform(put("/api/v1/pets/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonMapper.writeValueAsString(request)))
+                .andExpect(status().isAccepted())
+                .andExpect(jsonPath("$.nombreMascota").value("Firulais Actualizado"));
+    }
+
+    @Test
     void eliminarMascotaIdDebeRetornar204() throws Exception {
         mockMvc.perform(delete("/api/v1/pets/1")).andExpect(status().isNoContent());
 
         verify(mascotaService).eliminarMascotaId(eq(1L));
+    }
+
+    @Test
+    void eliminarMascotaIdDebeRetornar404CuandoNoExiste() throws Exception {
+        doThrow(new ResourceNotFoundException("no se puede eliminar porque no existe la mascota con id: 99"))
+                .when(mascotaService)
+                .eliminarMascotaId(99L);
+
+        mockMvc.perform(delete("/api/v1/pets/99")).andExpect(status().isNotFound());
     }
 }

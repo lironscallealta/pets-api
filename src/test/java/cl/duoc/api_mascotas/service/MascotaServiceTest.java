@@ -23,6 +23,7 @@ import cl.duoc.api_mascotas.model.Raza;
 import cl.duoc.api_mascotas.repository.MascotaRepository;
 import cl.duoc.api_mascotas.repository.RazaRepository;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -111,6 +112,29 @@ class MascotaServiceTest {
     }
 
     @Test
+    void consultarMascotasDebeRetornarListaMapeada() {
+        when(mascotaRepository.findAll()).thenReturn(List.of(crearMascota(1L), crearMascota(2L)));
+
+        List<MascotaResponseDTO> resultado = mascotaService.consultarMascotas();
+
+        assertThat(resultado).hasSize(2);
+        assertThat(resultado.get(0).getNombreMascota()).isEqualTo("Firulais");
+    }
+
+    @Test
+    void actualizarMascotaDebeRetornarMascotaCuandoExiste() {
+        Mascota existente = crearMascota(6L);
+        request.setNombreMascota("Firulais Actualizado");
+        when(mascotaRepository.findById(6L)).thenReturn(Optional.of(existente));
+
+        Optional<MascotaResponseDTO> resultado = mascotaService.actualizarMascota(6L, request);
+
+        assertThat(resultado).isPresent();
+        assertThat(resultado.get().getNombreMascota()).isEqualTo("Firulais Actualizado");
+        assertThat(existente.getNombreMascota()).isEqualTo("Firulais Actualizado");
+    }
+
+    @Test
     void eliminarMascotaIdDebeEliminarCuandoExiste() {
         Mascota mascota = crearMascota(3L);
         when(mascotaRepository.findById(3L)).thenReturn(Optional.of(mascota));
@@ -118,6 +142,13 @@ class MascotaServiceTest {
         mascotaService.eliminarMascotaId(3L);
 
         verify(mascotaRepository).delete(mascota);
+    }
+
+    @Test
+    void eliminarMascotaIdDebeLanzarNotFoundCuandoNoExiste() {
+        when(mascotaRepository.findById(99L)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> mascotaService.eliminarMascotaId(99L)).isInstanceOf(ResourceNotFoundException.class);
     }
 
     private Mascota crearMascota(Long id) {
