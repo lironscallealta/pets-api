@@ -34,7 +34,7 @@ public class MascotaService {
     private final MascotaRepository mascotaRepository;
     private final RazaRepository razaRepository;
 
-    private MascotaResponseDTO mapToMascotaToMascotaResponse(Mascota mascotaModel) {
+    private MascotaResponseDTO mapMascotaToMascotaResponse(Mascota mascotaModel) {
 
         MascotaResponseDTO mascotaResponse = new MascotaResponseDTO();
         EspecieResponseDTO especieResponse = new EspecieResponseDTO();
@@ -62,7 +62,7 @@ public class MascotaService {
         mascotaResponse.setFechaNacimientoMascota(mascotaModel.getFechaNacimientoMascota());
         mascotaResponse.setEsDocilBoolean(mascotaModel.getEsDocilBoolean());
         mascotaResponse.setRazaResponse(razaResponse);
-        mascotaResponse.setIdCliente(null);
+        mascotaResponse.setIdCliente(mascotaModel.getIdCliente());
 
         return mascotaResponse;
     }
@@ -91,7 +91,7 @@ public class MascotaService {
 
         mascotaRepository.save(mascotaModel);
 
-        MascotaResponseDTO mascotaResponse = mapToMascotaToMascotaResponse(mascotaModel);
+        MascotaResponseDTO mascotaResponse = mapMascotaToMascotaResponse(mascotaModel);
 
         return mascotaResponse;
     }
@@ -102,16 +102,14 @@ public class MascotaService {
         Mascota mascotaEncontrarId = mascotaRepository
                 .findById(idMascota)
                 .orElseThrow(() -> new ResourceNotFoundException("No se encontró la mascota con ID: " + idMascota));
-        MascotaResponseDTO mascotaResponse = mapToMascotaToMascotaResponse(mascotaEncontrarId);
+        MascotaResponseDTO mascotaResponse = mapMascotaToMascotaResponse(mascotaEncontrarId);
         return Optional.of(mascotaResponse);
     }
 
     public List<MascotaResponseDTO> consultarMascotas() {
 
         List<Mascota> mascotaEncontrar = mascotaRepository.findAll();
-        return mascotaEncontrar.stream()
-                .map(this::mapToMascotaToMascotaResponse)
-                .toList();
+        return mascotaEncontrar.stream().map(this::mapMascotaToMascotaResponse).toList();
         // el map se podria pasar asi tambien, para probar en otro microservicio .map(m
         // -> this.mapToMascotaToMascotaResponse(m)) m seria el objeto
 
@@ -124,7 +122,7 @@ public class MascotaService {
         List<Mascota> mascotaEncontrar = mascotaRepository.findAll();
 
         for (Mascota mascota : mascotaEncontrar) {
-            MascotaResponseDTO mascotaResponse = mapToMascotaToMascotaResponse(mascota);
+            MascotaResponseDTO mascotaResponse = mapMascotaToMascotaResponse(mascota);
             mascotaResponseList.add(mascotaResponse);
         }
         return mascotaResponseList;
@@ -140,7 +138,7 @@ public class MascotaService {
         mascotaModificar.setFechaNacimientoMascota(nuevosDatos.getFechaNacimientoMascota());
         mascotaModificar.setEsDocilBoolean(nuevosDatos.getEsDocilBoolean());
         mascotaModificar.setIdCliente(nuevosDatos.getIdCliente());
-        MascotaResponseDTO mascotaResponse = mapToMascotaToMascotaResponse(mascotaModificar);
+        MascotaResponseDTO mascotaResponse = mapMascotaToMascotaResponse(mascotaModificar);
         return Optional.of(mascotaResponse);
     }
 
